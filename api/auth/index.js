@@ -7,6 +7,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Signup route
 app.post('/signup', async (req, res) => {
@@ -100,6 +101,6 @@ app.post('/signup', async (req, res) => {
     }
   });
   
-
-
-export default app;
+  export default (req: VercelRequest, res: VercelResponse) => {
+    return app(req, res); // This makes the Express app compatible with Vercel
+  };
