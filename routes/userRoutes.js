@@ -26,7 +26,7 @@ router.post('/nearby', async (req, res) => {
       isAvailable: true // Only show available posts
     });
 
-    res.status(200).json(dummyFoodPosts);
+    res.status(200).json(posts);
 
   } catch (error) {
     console.error('Error fetching nearby food posts:', error);
@@ -56,7 +56,7 @@ router.post('/submit', async (req, res) => {
       image,
       isAvailable
     } = req.body;
-
+    console.log(req.body);
     // Validate required fields
     if (!name || !contact || !location || !postedBy || !expiryTime) {
       return res.status(400).json({ error: "Missing required fields." });
@@ -81,11 +81,12 @@ router.post('/submit', async (req, res) => {
       agreement,
       postedBy,
       expiryTime: new Date(expiryTime),
-      image: image, // Assuming `image` is base64 or URL
+      image: image, 
       isAvailable: isAvailable ?? true
     });
-
+    console.log(newFoodPost);
     await newFoodPost.save();
+    console.log("Food post saved:", newFoodPost._id);
 
     res.status(201).json({ message: "Food post submitted successfully!", post: newFoodPost });
 
