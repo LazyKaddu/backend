@@ -2,6 +2,7 @@ import express from 'express';
 import FoodPost from '../models/items.model.js';
 import recommendForUser from '../utils/recomendation.js';
 import { sendWhatsAppMessage } from '../utils/msg.js';
+import User from '../models/user.model.js';
 const router = express.Router();
 
 
@@ -159,5 +160,28 @@ router.post('/changeStatus', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+router.post('/addPoints', async (req,res)=>{
+  const {id, point} = req.body; 
+  try {
+    if (!id || typeof point !== 'number') {
+      return res.status(400).json({ message: 'Invalid request: id and numeric point required' });
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.points = (user.points || 0) + point;
+    await user.save();
+
+    res.status(200).json({ message: 'Points added successfully', updatedPoints: user.points });
+  } catch (err) {
+    console.error('Error adding points:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+})
 
 export default router;

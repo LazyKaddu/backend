@@ -38,7 +38,7 @@ router.post('/signup', async (req, res) => {
       name: user.name,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      donerPoint: user.points,
+      points: user.points,
     };
 
     res.status(201).json({
@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       isVerified: user.isVerified,
-      donerPoint: user.points,
+      points: user.points,
     };
 
     res.json({
