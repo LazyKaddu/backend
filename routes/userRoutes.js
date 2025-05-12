@@ -162,10 +162,11 @@ router.post('/changeStatus', async (req, res) => {
 });
 
 router.post('/addPoints', async (req,res)=>{
-  const {id, point} = req.body; 
+  const {id, points} = req.body;
+  
   try {
-    if (!id || typeof point !== 'number') {
-      return res.status(400).json({ message: 'Invalid request: id and numeric point required' });
+    if (!id || typeof points !== 'number') {
+      return res.status(400).json({ message: `Invalid request: id and numeric point required ${id,points}` });
     }
 
     const user = await User.findById(id);
