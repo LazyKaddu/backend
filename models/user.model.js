@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   },
   recommended: {
     avgServings: {
-      type: Number,
+      type: [Number],
       default: 0
     },
     preferredTypes: {

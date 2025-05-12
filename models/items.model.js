@@ -20,9 +20,8 @@ const FoodPostSchema = new mongoose.Schema({
     required: true
   },
   foodItems: {
-    type: String,
+    type: [String],
     required: true,
-    trim: true
   },
   cookedTime: {
     type: Date,

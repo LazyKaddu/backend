@@ -184,4 +184,43 @@ router.post('/addPoints', async (req,res)=>{
   }
 })
 
+router.post("/addintrest", async (req, res) => {
+  const { id, serving, foodType, foodItems } = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Add new values
+    if (!user.recommended) user.recommended = {};
+
+    // Add serving to avgServings array
+    if (!Array.isArray(user.recommended.avgServings)) user.recommended.avgServings = [];
+    user.recommended.avgServings.push(serving);
+
+    // Add foodType to preferredTypes if not already present
+    if (!Array.isArray(user.recommended.preferredTypes)) user.recommended.preferredTypes = [];
+    if (foodType && !user.recommended.preferredTypes.includes(foodType)) {
+      user.recommended.preferredTypes.push(foodType);
+    }
+
+    // Add foodItems to likedItems (filtering duplicates)
+    if (!Array.isArray(user.recommended.likedItems)) user.recommended.likedItems = [];
+    if (Array.isArray(foodItems)) {
+      foodItems.forEach(item => {
+        if (!user.recommended.likedItems.includes(item)) {
+          user.recommended.likedItems.push(item);
+        }
+      });
+    }
+
+    await user.save();
+
+    res.status(200).json({ message: "Interests updated successfully", user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;
