@@ -7,7 +7,7 @@ const router = express.Router();
 // Signup route
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phoneNumber} = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -20,6 +20,7 @@ router.post('/signup', async (req, res) => {
       name,
       email,
       password,
+      phoneNumber
     });
 
     await user.save();
@@ -36,6 +37,8 @@ router.post('/signup', async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      phoneNumber: user.phoneNumber,
+      donerPoint: user.points,
     };
 
     res.status(201).json({
@@ -80,8 +83,8 @@ router.post('/login', async (req, res) => {
       name: user.name,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      profilePicture: user.profilePicture,
-      isVerified: user.isVerified
+      isVerified: user.isVerified,
+      donerPoint: user.points,
     };
 
     res.json({

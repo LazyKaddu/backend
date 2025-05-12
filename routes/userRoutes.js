@@ -1,5 +1,7 @@
 import express from 'express';
 import FoodPost from '../models/items.model.js';
+import recommendForUser from '../utils/recomendation.js';
+import { sendWhatsAppMessage } from '../utils/msg.js';
 const router = express.Router();
 
 
@@ -125,5 +127,37 @@ router.post('/voluntere', async (req, res) =>{
     res.status(500).json({ error: "Server Error" });
   }
 })
+
+
+router.post('/changeStatus', async (req, res) => {
+  try {
+    const { id, user } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Food post ID is required' });
+    }
+
+    const updatedPost = await FoodPost.findByIdAndUpdate(
+      id,
+      { isVoluntered: true },
+      { new: true }
+    );
+
+    sendWhatsAppMessage(`your food is being voluntered by ${user.name} by the contact detail ${user.phoneNumber}`, updatedPost.contact);
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: 'Food post not found' });
+    }
+
+    res.status(200).json({
+      message: 'Status updated successfully',
+      data: updatedPost
+    });
+
+  } catch (error) {
+    console.error('Error changing status:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 export default router;

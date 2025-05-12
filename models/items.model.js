@@ -94,6 +94,10 @@ const FoodPostSchema = new mongoose.Schema({
   isAvailable: {
     type: Boolean,
     default: true
+  },
+  isVoluntered: {
+    type: Boolean,
+    default: false
   }
 });
 

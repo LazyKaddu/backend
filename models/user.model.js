@@ -7,6 +7,28 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Name is required'],
     trim: true
   },
+  recommended: {
+    avgServings: {
+      type: Number,
+      default: 0
+    },
+    preferredTypes: {
+      type: [String], // e.g., ['party', 'restaurant']
+      default: []
+    },
+    likedItems: {
+      type: [String], // e.g., ['biryani', 'pizza']
+      default: []
+    }
+  },
+  phoneNumber:{
+    type: String,
+    required: true,
+  },
+  points: {
+    type: Number,
+    default: 0,
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],
