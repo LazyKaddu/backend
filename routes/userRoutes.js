@@ -9,7 +9,7 @@ const router = express.Router();
 // GET all users
 router.post('/nearby', async (req, res) => {
   try {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude ,user} = req.body;
 
     if (!latitude || !longitude) {
       return res.status(400).json({ error: "Latitude and Longitude are required." });
@@ -29,7 +29,10 @@ router.post('/nearby', async (req, res) => {
       isAvailable: true // Only show available posts
     });
 
-    res.status(200).json(posts);
+    const recommendedPost = recommendForUser(user.recommended,posts)
+    
+
+    res.status(200).json(recommendedPost);
 
   } catch (error) {
     console.error('Error fetching nearby food posts:', error);
@@ -101,7 +104,7 @@ router.post('/submit', async (req, res) => {
 
 router.post('/voluntere', async (req, res) =>{
   try {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude, user } = req.body;
 
     if (!latitude || !longitude) {
       return res.status(400).json({ error: "Latitude and Longitude are required." });
@@ -175,13 +178,13 @@ router.post('/addPoints', async (req,res)=>{
       return res.status(404).json({ message: 'User not found' });
     }
 
-    user.points = (user.points || 0) + point;
+    user.points = (user.points || 0) + points;
     await user.save();
 
     res.status(200).json({ message: 'Points added successfully', updatedPoints: user.points });
   } catch (err) {
     console.error('Error adding points:', err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: `Server error ${err}` });
   }
 })
 
