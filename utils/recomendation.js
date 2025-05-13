@@ -33,7 +33,7 @@ function recommendForUser(userData, foodPosts) {
     // Score each post
     return foodPosts.map(post => {
       const itemSim = jaccardSimilarity(userData.likedItems, post.items);
-      const servingsSim = 1 - Math.abs(post.servings - userData.avgServings) / maxServings;
+      const servingsSim = 1 - Math.abs(post.servings - userData.averageServings.reduce((sum, num) => sum + num, 0) / (userData.averageServings.length-1)) / maxServings;
       const typeVec = typeMapping[post.type] || [0, 0, 0];
       const typeSim = cosineSimilarity(userTypeVec, typeVec);
   
