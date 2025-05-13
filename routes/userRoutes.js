@@ -36,7 +36,7 @@ router.post('/nearby', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching nearby food posts:', error);
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).json({ error: `Server Error ${error}` });
   }
 });
 router.post('/submit', async (req, res) => {
