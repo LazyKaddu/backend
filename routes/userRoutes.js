@@ -28,7 +28,7 @@ router.post('/nearby', async (req, res) => {
       },
       isAvailable: true // Only show available posts
     });
-
+    console.log(user);
     const recommendedPost = recommendForUser(user.recommended,posts)
     
 
