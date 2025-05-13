@@ -29,10 +29,10 @@ router.post('/nearby', async (req, res) => {
       isAvailable: true // Only show available posts
     });
     console.log(user);
-    const recommendedPost = recommendForUser(user.recommended,posts)
+    // const recommendedPost = recommendForUser(user.recommended,posts)
     
 
-    res.status(200).json(recommendedPost);
+    res.status(200).json(posts);
 
   } catch (error) {
     console.error('Error fetching nearby food posts:', error);
@@ -147,7 +147,7 @@ router.post('/changeStatus', async (req, res) => {
       { new: true }
     );
 
-    sendWhatsAppMessage(`your food is being voluntered by ${user.name} by the contact detail ${user.phoneNumber}`, updatedPost.contact);
+    // sendWhatsAppMessage(`your food is being voluntered by ${user.name} by the contact detail ${user.phoneNumber}`, updatedPost.contact);
 
     if (!updatedPost) {
       return res.status(404).json({ error: 'Food post not found' });
