@@ -33,13 +33,7 @@ router.post('/signup', async (req, res) => {
     );
 
     // Return user data (excluding password) and token
-    const userResponse = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      points: user.points,
-    };
+    const userResponse = user;
 
     res.status(201).json({
       message: 'User created successfully',
@@ -78,14 +72,7 @@ router.post('/login', async (req, res) => {
     );
 
     // Return user data (excluding password) and token
-    const userResponse = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      isVerified: user.isVerified,
-      points: user.points,
-    };
+    const userResponse = user;
 
     res.json({
       message: 'Login successful',
